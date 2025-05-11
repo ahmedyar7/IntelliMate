@@ -10,6 +10,6 @@ class ChatHistory extends StatefulWidget {
 class _ChatHistoryState extends State<ChatHistory> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Scaffold(body: Center(child: Text("Chat History")));
   }
 }
