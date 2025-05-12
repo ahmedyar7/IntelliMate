@@ -1,4 +1,4 @@
-import 'dart:nativewrappers/_internal/vm/lib/math_patch.dart';
+import 'dart:developer' as developer;
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intellimate/api/api_service.dart';
@@ -8,8 +8,9 @@ import 'package:intellimate/hive/settings.dart';
 import 'package:intellimate/hive/user_model.dart';
 import 'package:intellimate/models/message.dart';
 import 'package:hive_flutter/adapters.dart';
-import 'package:generative_ai_dart/generative_ai_dart.dart';
+import 'package:google_generative_ai/google_generative_ai.dart';
 import 'package:path_provider/path_provider.dart' as path;
+import 'package:uuid/uuid.dart';
 
 class ChatProvider extends ChangeNotifier {
   // List of messages
@@ -69,7 +70,7 @@ class ChatProvider extends ChangeNotifier {
     for (var message in messageFromDB) {
       // If Message is already in inchat then we don't have to enter them
       if (inChatMessages.contains(message)) {
-        log("Message already exits" as num);
+        developer.log("Message already exits");
         continue;
       }
 
@@ -82,7 +83,7 @@ class ChatProvider extends ChangeNotifier {
   // Load msgs from db
   Future<List<Message>> loadMessageFromDB({required String chatId}) async {
     // Open the box of this chatId
-    await Hive.openBox('$Constants.chatMessagesBox)$chatId');
+    await Hive.openBox('$Constants.chatMessagesBox$chatId');
 
     final messageBox = Hive.box('$Constants.chatMessagesBox)$chatId');
 
@@ -119,17 +120,14 @@ class ChatProvider extends ChangeNotifier {
     if (isTextOnly) {
       _model =
           _textModel ??
-          GenerativeModel(
-            apiKey: ApiService.api_key!,
-            params: ModelParams(model: 'gemini-pro'),
-          );
+          GenerativeModel(model: 'gemini-pro', apiKey: ApiService.api_key!);
       _textModel = _model;
     } else {
       _model =
           _visualModel ??
           GenerativeModel(
+            model: 'gemini-pro-vision',
             apiKey: ApiService.api_key!,
-            params: ModelParams(model: 'gemini-pro-vision'),
           );
       _visualModel = _model;
     }
@@ -156,6 +154,97 @@ class ChatProvider extends ChangeNotifier {
   }
 
   // --------->   SENDING REQUEST TO GEMINI AND GETTING THE RESPONSE STREAM   <---------- //
+
+  Future<void> sentMessage({
+    required String message,
+    required bool isTextOnly,
+  }) async {
+    // Setting the model
+    await setModel(isTextOnly: isTextOnly);
+
+    // Setting the loading
+    setLoading(newLoading: true);
+
+    // We need a method
+    // - If we are creating the chat for first time then we need chatid
+    // - Otherwiser we don't need a chat id
+    String chatId = getChatId();
+
+    // Initializing the List of  History Messages
+    List<Content> history = [];
+
+    // Get Chat History
+    history = await getHistory(chatId: chatId);
+
+    // Get Image Urls
+    List<String> imagesUrls = getImagesUrls(isTextOnly: isTextOnly);
+
+    // User message
+    final userMessage = Message(
+      messageId: "",
+      chatId: chatId,
+      role: Role.user,
+      message: StringBuffer(message), // this is a stream buffer
+      imageUrls: imagesUrls,
+      timeSent: DateTime.now(),
+    );
+
+    // Adding this messages into the inChatMessages
+    _inChatMessage.add(userMessage);
+    notifyListeners();
+
+    if (currentChatId.isEmpty) {
+      setCurrentChatId(newChatId: chatId);
+    }
+
+    // Send message to model and wait for the response
+    await sendMessageAndWaitForResponse(
+      message: message,
+      chatId: chatId,
+      isTextOnly: isTextOnly,
+      history: history,
+      userMessage: userMessage,
+    );
+  }
+
+  // get Images url
+  List<String> getImagesUrls({required bool isTextOnly}) {
+    List<String> imagesUrls = [];
+    if (!isTextOnly && imagesFileList != null) {
+      for (var image in imagesFileList!) {
+        imagesUrls.add(image.path);
+      }
+    }
+    return imagesUrls;
+  }
+
+  // Get the histry messages
+  Future<List<Content>> getHistory({required String chatId}) async {
+    List<Content> history = [];
+
+    if (currentChatId.isNotEmpty) {
+      await setInChatMessages(chatId: chatId);
+
+      for (var message in inChatMessages) {
+        if (message.role == Role.user) {
+          history.add(Content.text(message.message.toString()));
+        } else {
+          history.add(Content.model([TextPart(message.message.toString())]));
+        }
+      }
+    }
+
+    return history;
+  }
+
+  // Gets the unique chat it
+  String getChatId() {
+    if (currentChatId.isEmpty) {
+      return const Uuid().v4();
+    }
+
+    return currentChatId;
+  }
 
   // Init Hive box
   static initHive() async {
