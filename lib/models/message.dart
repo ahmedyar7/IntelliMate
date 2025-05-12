@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+
 class Message {
   String messageId;
   String chatId;
@@ -57,6 +59,18 @@ class Message {
       imageUrls: imageUrls ?? this.imageUrls,
       timeSent: timeSent ?? this.timeSent,
     );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is Message && other.messageId == messageId;
+  }
+
+  @override
+  int get hashCode {
+    return messageId.hashCode;
   }
 }
 
