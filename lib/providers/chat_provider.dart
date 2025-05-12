@@ -1,5 +1,7 @@
+import 'dart:nativewrappers/_internal/vm/lib/math_patch.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intellimate/api/api_service.dart';
 import 'package:intellimate/constants.dart';
 import 'package:intellimate/hive/chat_history.dart';
 import 'package:intellimate/hive/settings.dart';
@@ -56,7 +58,104 @@ class ChatProvider extends ChangeNotifier {
   String get modelType => _modelType;
   bool get isLoading => _isLoading;
 
-  // -------------> SETTERS <--------------- //
+  // --------->   SETTERS   <---------- //
+
+  // set inMessages
+  Future<void> setInChatMessages({required String chatId}) async {
+    // Getting msgs from database(HIVE
+
+    final messageFromDB = await loadMessageFromDB(chatId: chatId);
+
+    for (var message in messageFromDB) {
+      // If Message is already in inchat then we don't have to enter them
+      if (inChatMessages.contains(message)) {
+        log("Message already exits" as num);
+        continue;
+      }
+
+      _inChatMessage.add(message);
+    }
+    // Notifying the changes
+    notifyListeners();
+  }
+
+  // Load msgs from db
+  Future<List<Message>> loadMessageFromDB({required String chatId}) async {
+    // Open the box of this chatId
+    await Hive.openBox('$Constants.chatMessagesBox)$chatId');
+
+    final messageBox = Hive.box('$Constants.chatMessagesBox)$chatId');
+
+    // Returning the new data
+    final newData =
+        messageBox.keys.map((e) {
+          final message = messageBox.get(e);
+          final messageData = Message.fromMap(
+            Map<String, dynamic>.from(message),
+          );
+
+          return messageData;
+        }).toList();
+    notifyListeners();
+    return newData;
+  }
+
+  // Set Files list
+  void setImagesFileList({required List<XFile> listValue}) {
+    _imagesFileList = listValue;
+    notifyListeners();
+  }
+
+  // Setting the current model
+  String setCurrentModel({required String newModel}) {
+    _modelType = newModel;
+    notifyListeners();
+
+    return newModel;
+  }
+
+  // Function to set model based on bool - IsTextonly
+  Future<void> setModel({required bool isTextOnly}) async {
+    if (isTextOnly) {
+      _model =
+          _textModel ??
+          GenerativeModel(
+            apiKey: ApiService.api_key!,
+            params: ModelParams(model: 'gemini-pro'),
+          );
+      _textModel = _model;
+    } else {
+      _model =
+          _visualModel ??
+          GenerativeModel(
+            apiKey: ApiService.api_key!,
+            params: ModelParams(model: 'gemini-pro-vision'),
+          );
+      _visualModel = _model;
+    }
+
+    notifyListeners();
+  }
+
+  // Setter for managing the page index
+  void setCurrentIndex({required int newIndex}) {
+    _currentIndex = newIndex;
+    notifyListeners();
+  }
+
+  // Setting the current id
+  void setCurrentChatId({required String newChatId}) {
+    _currentChatId = newChatId;
+    notifyListeners();
+  }
+
+  // Setting the loading
+  void setLoading({required bool newLoading}) {
+    _isLoading = newLoading;
+    notifyListeners();
+  }
+
+  // --------->   SENDING REQUEST TO GEMINI AND GETTING THE RESPONSE STREAM   <---------- //
 
   // Init Hive box
   static initHive() async {

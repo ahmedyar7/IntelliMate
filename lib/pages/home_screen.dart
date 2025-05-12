@@ -12,13 +12,13 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final List<Widget> _screens = [
-    const ProfileScreen(),
-    const ChatHistory(),
-    const ChatScreen(),
+    const ChatHistory(), // Left
+    const ChatScreen(), // Center (default)
+    const ProfileScreen(), // Right
   ];
 
-  final PageController _pageController = PageController();
-  int _currentIndex = 0;
+  final PageController _pageController = PageController(initialPage: 1);
+  int _currentIndex = 1; // Start at ChatScreen
 
   @override
   Widget build(BuildContext context) {
@@ -36,8 +36,8 @@ class _HomeScreenState extends State<HomeScreen> {
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
         elevation: 0,
-        selectedItemColor: Colors.purple, // Set active item color
-        unselectedItemColor: Colors.grey, // Optional: for inactive items
+        selectedItemColor: Colors.purple,
+        unselectedItemColor: Colors.grey,
         onTap: (index) {
           _pageController.jumpToPage(index);
           setState(() {
@@ -45,15 +45,15 @@ class _HomeScreenState extends State<HomeScreen> {
           });
         },
         items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person_outline),
-            label: "Profile",
-          ),
+          BottomNavigationBarItem(icon: Icon(Icons.history), label: "History"),
           BottomNavigationBarItem(
             icon: Icon(Icons.chat_bubble_outline),
             label: "Chat",
           ),
-          BottomNavigationBarItem(icon: Icon(Icons.history), label: "History"),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person_outline),
+            label: "Profile",
+          ),
         ],
       ),
     );
