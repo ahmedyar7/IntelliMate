@@ -36,7 +36,7 @@ class _SplashScreenState extends State<SplashScreen> {
               height: 5,
             ),
             Text(
-              "Intellimate",
+              "IntelliMate",
               style: mTextStyle25(
                   fontWeight: FontWeight.bold, fontColor: Colors.blueGrey),
             )
