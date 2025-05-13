@@ -1,16 +1,16 @@
+import 'package:intellimate/provider/msg_provider.dart';
+import 'package:intellimate/screen/splash_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:intellimate/pages/home_screen.dart';
-import 'package:intellimate/providers/chat_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-
-  await ChatProvider.initHive();
-
+Future main() async {
+  await dotenv.load(fileName: ".env");
   runApp(
     MultiProvider(
-      providers: [ChangeNotifierProvider(create: (context) => ChatProvider())],
+      providers: [
+        ChangeNotifierProvider(create: (_) => MessageProvider()),
+      ],
       child: const MyApp(),
     ),
   );
@@ -18,17 +18,12 @@ void main() async {
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-      ),
-      home: const HomeScreen(),
-    );
+        debugShowCheckedModeBanner: false,
+        title: 'Flutter Demo',
+        theme: ThemeData.dark(),
+        home: SplashScreen());
   }
 }
