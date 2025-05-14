@@ -184,4 +184,4 @@ We welcome contributions from the community! Whether you're fixing a bug, improv
 
 # LICENSE
 
-[Geneneral-Public-License](./LICENSE)
+[General-Public-License](./LICENSE)
