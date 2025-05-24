@@ -23,6 +23,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.black, // Set background color
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -35,11 +36,26 @@ class _SplashScreenState extends State<SplashScreen> {
             const SizedBox(
               height: 5,
             ),
-            Text(
-              "IntelliMate",
-              style: mTextStyle25(
-                  fontWeight: FontWeight.bold, fontColor: Colors.blueGrey),
-            )
+            RichText(
+              text: TextSpan(
+                children: [
+                  TextSpan(
+                    text: "Intelli",
+                    style: mTextStyle25(
+                      fontWeight: FontWeight.bold,
+                      fontColor: Colors.white,
+                    ),
+                  ),
+                  TextSpan(
+                    text: "Mate",
+                    style: mTextStyle25(
+                      fontWeight: FontWeight.bold,
+                      fontColor: Colors.blue,
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
       ),

@@ -193,7 +193,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8),
                         border: index == selectedIndex
-                            ? Border.all(width: 1, color: Colors.black)
+                            ? Border.all(width: 1, color: Colors.white10)
                             : null,
                       ),
                       child: Padding(
