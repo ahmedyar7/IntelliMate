@@ -2,9 +2,18 @@
   <img src="./assets/icon/robot.png" alt="IntelliMate Logo" width="120" />
 </p>
 
-<h1 align="center">IntelliMate</h1>
+<style>
+  .blue-text {
+    color:#1463cd
+ ;
+  }
+</style>
 
-A smart and interactive **AI chatbot app** built using **Flutter**, powered by the **Google Gemini API**. Designed for Computer Science students and enthusiasts, this app lets you ask questions and get intelligent responses from an AI model in real-time.
+<h1 align="center">
+  Intelli<span class="blue-text">Mate</span>
+</h1>
+
+A smart and interactive _AI chatbot app_ built using **Flutter**, powered by the **Google Gemini API**. Designed for Computer Science students and enthusiasts, this app lets you ask questions and get intelligent responses from an AI model in real-time.
 
 ---
 
@@ -71,17 +80,6 @@ To help users and contributors understand how **IntelliMate** looks and feels, y
   - Trending
   - Interview Prep
 - Tap to send directly to Gemini
-
-### 🔐 Secure API Key Handling
-
-- API key loaded securely via `.env` file
-- No hardcoded credentials
-
-<!-- ### 🗂️ Local Storage
-
-- Chat history saved locally using Hive
-- Auto-load previous chats
-- Persistent across sessions -->
 
 ### 🎨 UI/UX
 
