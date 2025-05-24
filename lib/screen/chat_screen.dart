@@ -50,7 +50,7 @@ class _ChatScreenState extends State<ChatScreen> {
                 style: mTextStyle25(fontColor: Colors.white),
                 children: [
                   TextSpan(
-                    text: "mate",
+                    text: "Mate",
                     style: mTextStyle25(fontColor: Colors.blue),
                   ),
                 ],
