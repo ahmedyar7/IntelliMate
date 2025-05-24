@@ -1,10 +1,10 @@
 <p align="center">
-  <img src="./assets/icon/robot.png" alt="IntelliMate Logo" width="120" />
+  <img src="./assets/icon/logo.png" alt="IntelliMate Logo" width="120" />
 </p>
 
 <style>
   .blue-text {
-    color:#1463cd
+    color:#267DC0
  ;
   }
 </style>
@@ -93,30 +93,29 @@ To help users and contributors understand how **IntelliMate** looks and feels, y
 ## 📁 Folder Structure
 
 ```
-├───lib
-    │   main.dart
-    │
-    ├───data
-    │   └───remote
-    │           api_helper.dart
-    │           urls.dart
-    ├───model
-    │       gemini_response_model.dart
-    │       message_model.dart
-    │
-    ├───provider
-    │       msg_provider.dart
-    │
-    ├───screen
-    │       chat_screen.dart
-    │       dashboard_screen.dart
-    │       signup_screen.dart
-    │       splash_screen.dart
-    │
-    └───utils
-            app_constant.dart
-            colors.dart
-            util_helper.dart
+lib/
+├── main.dart
+├── data/remote/
+│   ├── api_helper.dart
+│   └── urls.dart
+|
+├── model/
+│   ├── gemini_response_model.dart
+│   └── message_model.dart
+|
+├── provider/
+│   └── msg_provider.dart
+|
+├── screen/
+│   ├── chat_screen.dart
+│   ├── dashboard_screen.dart
+│   ├── signup_screen.dart
+│   └── splash_screen.dart
+|
+└── utils/
+    ├── app_constant.dart
+    └── colors.dart
+
 ```
 
 ---
@@ -126,7 +125,7 @@ To help users and contributors understand how **IntelliMate** looks and feels, y
 ### 1. Clone the Project
 
 ```bash
-git https://github.com/ahmedyar7/IntelliMate
+git https://github.com/ahmedyar7/IntelliMate.git
 cd IntelliMate
 ```
 

@@ -43,7 +43,7 @@ class _ChatScreenState extends State<ChatScreen> {
         title: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset("assets/icon/robot.png", height: 30),
+            Image.asset("assets/icon/logo.png", height: 30),
             Text.rich(
               TextSpan(
                 text: " Intelli",
@@ -275,7 +275,7 @@ class _ChatScreenState extends State<ChatScreen> {
                 Row(
                   children: [
                     Image.asset(
-                      "assets/icon/robot.png",
+                      "assets/icon/logo.png",
                       height: 30,
                       width: 30,
                     ),
