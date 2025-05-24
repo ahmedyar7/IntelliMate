@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-
+import 'package:flutter_markdown/flutter_markdown.dart';
 import '../utils/util_helper.dart';
 
 // ignore: must_be_immutable
@@ -77,8 +77,13 @@ class _ChatScreenState extends State<ChatScreen> {
                 decoration: BoxDecoration(
                     color: Colors.white10,
                     borderRadius: BorderRadius.circular(100)),
-                child:
-                    IconButton(icon: const Icon(Icons.face), onPressed: () {})),
+                child: IconButton(
+                  icon: const Icon(Icons.person),
+                  onPressed: () {
+                    Provider.of<MessageProvider>(context, listen: false)
+                        .stopTyping();
+                  },
+                )),
           ),
         ],
       ),
@@ -110,15 +115,28 @@ class _ChatScreenState extends State<ChatScreen> {
               style: mTextStyle18(fontColor: Colors.white70),
               decoration: InputDecoration(
                 prefixIcon: const Icon(Icons.mic, color: Colors.white),
-                suffixIcon: InkWell(
-                  onTap: () {
-                    Provider.of<MessageProvider>(context, listen: false)
-                        .sendMessage(message: chatBoxController.text);
-                    setState(() {
-                      chatBoxController.clear();
-                    });
+                suffixIcon: Consumer<MessageProvider>(
+                  builder: (context, provider, child) {
+                    return InkWell(
+                      onTap: () {
+                        if (provider.isTyping) {
+                          provider.stopTyping(); // Stop response generation
+                        } else {
+                          if (chatBoxController.text.trim().isNotEmpty) {
+                            provider.sendMessage(
+                                message: chatBoxController.text.trim());
+                            chatBoxController.clear();
+                          }
+                        }
+                      },
+                      child: Icon(
+                        provider.isTyping
+                            ? Icons.stop_circle_outlined
+                            : Icons.send,
+                        color: Colors.white,
+                      ),
+                    );
                   },
-                  child: const Icon(Icons.send, color: Colors.white),
                 ),
                 hintText: "Write a question!",
                 hintStyle: mTextStyle18(fontColor: Colors.white38),
@@ -200,28 +218,53 @@ class _ChatScreenState extends State<ChatScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             /// Bot Message
+            /// Bot Message
             msgModel.isRead!
-                ? SelectableText(
-                    msgModel.msg!,
-                    style: mTextStyle18(fontColor: Colors.black87),
+                ? MarkdownBody(
+                    data: msgModel.msg!,
+                    styleSheet: MarkdownStyleSheet(
+                      p: mTextStyle18(fontColor: Colors.black87),
+                      code: const TextStyle(
+                        backgroundColor: Colors.black12,
+                        color: Colors.deepOrange,
+                        fontFamily: 'monospace',
+                      ),
+                    ),
                   )
                 : DefaultTextStyle(
                     style: mTextStyle18(fontColor: Colors.black87),
-                    child: AnimatedTextKit(
-                      repeatForever: false,
-                      displayFullTextOnTap: true,
-                      isRepeatingAnimation: false,
-                      onFinished: () {
-                        context
-                            .read<MessageProvider>()
-                            .updateMessageRead(index);
+                    child: Consumer<MessageProvider>(
+                      builder: (context, provider, _) {
+                        if (msgModel.isRead! || !provider.isTyping) {
+                          return MarkdownBody(
+                            data: msgModel.msg!,
+                            styleSheet: MarkdownStyleSheet(
+                              p: mTextStyle18(fontColor: Colors.black87),
+                              code: const TextStyle(
+                                backgroundColor: Colors.black12,
+                                color: Colors.deepOrange,
+                                fontFamily: 'monospace',
+                              ),
+                            ),
+                          );
+                        } else {
+                          return AnimatedTextKit(
+                            repeatForever: false,
+                            displayFullTextOnTap: true,
+                            isRepeatingAnimation: false,
+                            onFinished: () {
+                              provider.updateMessageRead(index);
+                            },
+                            animatedTexts: [
+                              TypewriterAnimatedText(
+                                msgModel.msg!,
+                                textStyle:
+                                    mTextStyle18(fontColor: Colors.black87),
+                              ),
+                            ],
+                          );
+                        }
                       },
-                      animatedTexts: [
-                        TypewriterAnimatedText(
-                          msgModel.msg!,
-                          textStyle: mTextStyle18(fontColor: Colors.black87),
-                        ),
-                      ],
                     ),
                   ),
 
@@ -245,7 +288,7 @@ class _ChatScreenState extends State<ChatScreen> {
                               "Text copied to clipboard!",
                               style: mTextStyle18(fontColor: Colors.white70),
                             ),
-                            backgroundColor: Colors.orange.withOpacity(0.8),
+                            backgroundColor: Colors.black38.withOpacity(0.8),
                           ),
                         );
                       },
