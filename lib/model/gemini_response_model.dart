@@ -29,7 +29,7 @@ class Candidates {
 
   Candidates.fromJson(Map<String, dynamic> json) {
     content =
-    json['content'] != null ? new Content.fromJson(json['content']) : null;
+        json['content'] != null ? new Content.fromJson(json['content']) : null;
     finishReason = json['finishReason'];
   }
 
