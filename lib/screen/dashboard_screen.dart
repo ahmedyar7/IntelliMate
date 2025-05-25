@@ -25,7 +25,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
             children: [
               TextSpan(
                 text: "Mate",
-                style: mTextStyle25(fontColor: Colors.blue),
+                style: mTextStyle25(fontColor: Colors.blueAccent),
               ),
             ],
           ),
