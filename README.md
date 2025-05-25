@@ -2,13 +2,6 @@
   <img src="./assets/icon/logo.png" alt="IntelliMate Logo" width="120" />
 </p>
 
-<style>
-  .blue-text {
-    color:#267DC0
- ;
-  }
-</style>
-
 <h1 align="center">
   Intelli<span class="blue-text">Mate</span>
 </h1>
