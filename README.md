@@ -136,7 +136,8 @@ cd IntelliMate
 flutter pub get
 ```
 
-> Make sure you're using Flutter stable channel:
+> **📌 NOTE:**  
+> Make sure you're using the Flutter stable channel:
 >
 > ```bash
 > flutter channel stable
