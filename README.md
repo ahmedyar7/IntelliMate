@@ -1,10 +1,6 @@
 <p align="center">
-  <img src="./assets/icon/logo.png" alt="IntelliMate Logo" width="120" />
+  <img src="./assets/screenshots/IntelliMate.png" alt="IntelliMate Logo"  />
 </p>
-
-<h1 align="center">
-  Intelli<span class="blue-text">Mate</span>
-</h1>
 
 A smart and interactive _AI chatbot app_ built using **Flutter**, powered by the **Google Gemini API**. Designed for Computer Science students and enthusiasts, this app lets you ask questions and get intelligent responses from an AI model in real-time.
 
@@ -29,12 +25,9 @@ This project is ideal for developers looking to integrate AI models like Gemini 
 
 To help users and contributors understand how **IntelliMate** looks and feels, you can add screenshots of the app in action.
 
-| Screen              | Description                                              |
-| ------------------- | -------------------------------------------------------- |
-| 🔐 Login Screen     | ![login-screen](./assets/screenshots/login-screen.png)   |
-| 🚀 Splash Screen    | ![splash-screen](./assets/screenshots/splash-screen.png) |
-| 🏠 Dashboard Screen | ![Dashboard](./assets/screenshots/dashboard.png)         |
-| 💬 Chat Screen      | ![chat-screen](./assets/screenshots/chat-screen.png)     |
+<p align="center">
+  <img src="./assets/screenshots/design.png" alt="IntelliMate Logo"  />
+</p>
 
 ---
 
