@@ -31,6 +31,12 @@ To help users and contributors understand how **IntelliMate** looks and feels, y
 
 ---
 
+## Video Demostration
+
+[Youtube Video](https://www.youtube.com/shorts/PGc0i7h2gHI)
+
+---
+
 ## 🧰 Technologies Used
 
 | Tool           | Purpose                                  |
