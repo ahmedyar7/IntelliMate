@@ -32,8 +32,7 @@ To help users and contributors understand how **IntelliMate** looks and feels, y
 ---
 
 ## Video Demostration
-
-[Youtube Video](https://www.youtube.com/shorts/PGc0i7h2gHI)
+https://github.com/user-attachments/assets/bc28d93a-84df-4bf7-81d9-c49e6e2c5a03
 
 ---
 
