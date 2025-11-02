@@ -4,6 +4,14 @@
 
 A smart and interactive _AI chatbot app_ built using **Flutter**, powered by the **Google Gemini API**. Designed for Computer Science students and enthusiasts, this app lets you ask questions and get intelligent responses from an AI model in real-time.
 
+<div align="center">
+<img alt="Dart" src="https://img.shields.io/badge/language-Dart-0175C2?style=flat&logo=dart&logoColor=white" />
+<img alt="GPLv3" src="https://img.shields.io/badge/license-GPLv3-4F772D?style=flat&logo=gnu&logoColor=white" />
+<img alt="GPLv2" src="https://img.shields.io/badge/license-GPLv2-4F772D?style=flat&logo=gnu&logoColor=white" />
+<img alt="Gemini" src="https://img.shields.io/badge/protocol-Gemini-7A6EE6?style=flat&logo=gemini&logoColor=white" />
+</div>
+
+
 This project was inspiried by the below Figma UI Kit
 **[Figma-Design](https://www.figma.com/design/oyB9cM60RpiRMn3RfkLxH0/AI-Assistant-Mobile--Community-?node-id=208-3931&p=f&t=bUFGjh5vquhLwgNe-0)**
 
